@@ -73,5 +73,27 @@ namespace MercuryTech_Test.Controllers
             }
             catch (Exception ex) { return StatusCode(500, ex.Message); }
         }
+
+        // 4. 追加需求：查詢高溫警告 (GET)
+        [HttpGet("warning")]
+        public IActionResult GetWarningWeather([FromQuery] decimal minTemp)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connectionString))
+                {
+                    // 呼叫新的預存程序，並把 minTemp 傳給 SQL 參數 @MinTemp
+                    var result = conn.Query<WeatherModel>(
+                        "SP_GetWarningWeather",
+                        new { MinTemp = minTemp },
+                        commandType: CommandType.StoredProcedure
+                    ).ToList();
+
+                    if (result.Count == 0) return NotFound($"找不到溫度高於 {minTemp} 度的城市紀錄");
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex) { return StatusCode(500, ex.Message); }
+        }
     }
 }
