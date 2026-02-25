@@ -22,5 +22,5 @@
 請確認 `appsettings.json` 內的 `DefaultConnection` 符合您的 SQL Server 環境設定：
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=您的伺服器名稱;Database=WeatherExamDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  "DefaultConnection": "Server=.;Database=WeatherExamDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
